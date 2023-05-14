@@ -10,9 +10,6 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 
-/* 填入KEY */
-const API_KEY = "Your_Key";
-
 /* content設定人設 */
 const systemMessage = {
   role: "system",
@@ -74,6 +71,17 @@ function ChatGpt() {
       return { role: role, content: messageObject.message };
     });
 
+    let apiKey = sessionStorage.getItem("apiKey");
+    if (!apiKey) {
+      apiKey = prompt("請輸入API_KEY:");
+      if (apiKey) {
+        sessionStorage.setItem("apiKey", apiKey);
+      } else {
+        setIsTyping(false);
+        return;
+      }
+    }
+
     const apiRequestBody = {
       model: "gpt-3.5-turbo", // 定義模型
       messages: [
@@ -85,7 +93,7 @@ function ChatGpt() {
     await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + API_KEY,
+        Authorization: `Bearer ${sessionStorage.getItem("apiKey")}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(apiRequestBody),
