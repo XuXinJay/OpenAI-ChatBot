@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./chatgpt.css";
+import "../assets/style/chatgpt.css";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.css";
 import {
   MainContainer,
